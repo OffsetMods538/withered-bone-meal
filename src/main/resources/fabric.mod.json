@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "withered-bone-meal",
+	"version": "${modVersion}",
+	"name": "Withered Bone Meal",
+	"description": "Adds Withered Bone Meal, grows Nether Wart, kills plants and turns flowers into Wither Roses",
+	"authors": [
+		"OffsetMonkey538"
+	],
+	"contact": {
+		"sources": "https://github.offsetmonkey538.top/withered-bone-meal"
+	},
+	"license": "MIT",
+	"icon": "assets/withered-bone-meal/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"top.offsetmonkey538.witheredbonemeal.WitheredBoneMeal"
+		],
+		"fabric-datagen": [
+			"top.offsetmonkey538.witheredbonemeal.datagen.WitheredBoneMealDatagen"
+		]
+	},
+	"mixins": [
+		"withered-bone-meal.mixins.json"
+	],
+	"depends": {
+		"minecraft": "${supportedMinecraftVersions}"
+	}
+}
