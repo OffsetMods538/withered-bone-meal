@@ -1,8 +1,10 @@
 package top.offsetmonkey538.witheredbonemeal.init;
 
-import net.minecraft.block.Block;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 
 import static top.offsetmonkey538.witheredbonemeal.WitheredBoneMeal.*;
 
@@ -12,7 +14,7 @@ public final class ModBlocks {
     }
 
 
-
+    public static final Block WITHERED_BONE_BLOCK = register("withered_bone_block", new PillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(2.0f).sounds(BlockSoundGroup.BONE)));
 
 
     private static <T extends Block> T register(String name, T block) {
