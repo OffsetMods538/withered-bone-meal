@@ -5,6 +5,7 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.offsetmonkey538.witheredbonemeal.init.ModBlocks;
+import top.offsetmonkey538.witheredbonemeal.init.ModItems;
 
 public class WitheredBoneMeal implements ModInitializer {
 	public static final String MOD_ID = "withered-bone-meal";
@@ -13,6 +14,7 @@ public class WitheredBoneMeal implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModBlocks.initialize();
+		ModItems.initialize();
 	}
 
 	public static Identifier id(String name) {
