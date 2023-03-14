@@ -6,6 +6,7 @@ classes
 
 # Fabric
 run/
+src/main/generated/.cache
 
 # Java
 hs_err_*.log
