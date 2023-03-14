@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "withered-bone-meal:item/withered_bone"
+  }
+}

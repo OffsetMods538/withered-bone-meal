@@ -16,6 +16,7 @@ public final class ModItems {
 
 
     public static final BlockItem WITHERED_BONE_BLOCK = register("withered_bone_block", new BlockItem(ModBlocks.WITHERED_BONE_BLOCK, new FabricItemSettings()));
+    public static final Item      WITHERED_BONE       = register("withered_bone",       new Item(new FabricItemSettings()));
 
 
     private static <T extends Item> T register(String name, T item) {
@@ -24,13 +25,17 @@ public final class ModItems {
 
     @SuppressWarnings("UnstableApiUsage")
     private static void addItemsToItemGroups() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((entries) -> {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
             entries.addBefore(Items.BASALT, WITHERED_BONE_BLOCK);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((entries -> {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.addBefore(Items.BASALT, WITHERED_BONE_BLOCK);
-        }));
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
+            entries.addAfter(Items.BONE, WITHERED_BONE);
+        });
     }
 
     public static void initialize() {
