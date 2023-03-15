@@ -14,5 +14,6 @@ public class ModEnglishLanguageProvider extends FabricLanguageProvider {
     public void generateTranslations(TranslationBuilder translationBuilder) {
         translationBuilder.add(ModBlocks.WITHERED_BONE_BLOCK, "Withered Bone Block");
         translationBuilder.add(ModItems.WITHERED_BONE, "Withered Bone");
+        translationBuilder.add(ModItems.WITHERED_BONE_MEAL, "Withered Bone Meal");
     }
 }

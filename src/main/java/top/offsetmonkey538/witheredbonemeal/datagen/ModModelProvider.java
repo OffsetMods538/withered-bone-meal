@@ -23,5 +23,6 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.WITHERED_BONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.WITHERED_BONE_MEAL, Models.GENERATED);
     }
 }
