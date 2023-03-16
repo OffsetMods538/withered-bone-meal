@@ -6,11 +6,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import top.offsetmonkey538.witheredbonemeal.item.WitheredBoneMealItem;
 
 import static top.offsetmonkey538.witheredbonemeal.WitheredBoneMeal.LOGGER;
@@ -28,7 +27,7 @@ public final class ModItems {
 
 
     private static <T extends Item> T register(String name, T item) {
-        return Registry.register(Registries.ITEM, id(name), item);
+        return Registry.register(Registry.ITEM, id(name), item);
     }
 
     @SuppressWarnings("UnstableApiUsage")
