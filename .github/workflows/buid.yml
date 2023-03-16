@@ -7,7 +7,7 @@ jobs:
       matrix:
         java: [
           17 # Run on Java 17
-        ],
+        ]
         os: [
           ubuntu-latest # Run on latest version of Ubuntu
         ]
