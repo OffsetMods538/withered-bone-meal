@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "withered-bone-meal:withered_bone_block"
-  }
+  },
+  "show_notification": true
 }
