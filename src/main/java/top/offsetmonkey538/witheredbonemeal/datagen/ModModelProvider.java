@@ -1,6 +1,6 @@
 package top.offsetmonkey538.witheredbonemeal.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
@@ -11,8 +11,8 @@ import top.offsetmonkey538.witheredbonemeal.init.ModItems;
 
 public class ModModelProvider extends FabricModelProvider {
 
-    public ModModelProvider(FabricDataOutput output) {
-        super(output);
+    public ModModelProvider(FabricDataGenerator dataGenerator) {
+        super(dataGenerator);
     }
 
     @Override
