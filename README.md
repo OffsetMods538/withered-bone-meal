@@ -1,4 +1,6 @@
 # Withered Bone Meal
+[![fabric-api](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/requires/fabric-api_vector.svg)](https://modrinth.com/mod/fabric-api)
+
 ## Wat dis
 Ever wanted for nether wart to grow faster?  
 What about getting wither roses easily?  
