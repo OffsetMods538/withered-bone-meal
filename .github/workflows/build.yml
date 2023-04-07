@@ -1,4 +1,4 @@
-name: build-master
+name: build-1.19.2
 on: [pull_request, push]
 
 jobs:

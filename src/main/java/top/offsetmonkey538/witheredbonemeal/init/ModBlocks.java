@@ -2,9 +2,8 @@ package top.offsetmonkey538.witheredbonemeal.init;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.registry.Registry;
 
 import static top.offsetmonkey538.witheredbonemeal.WitheredBoneMeal.*;
 
@@ -18,7 +17,7 @@ public final class ModBlocks {
 
 
     private static <T extends Block> T register(String name, T block) {
-        return Registry.register(Registries.BLOCK, id(name), block);
+        return Registry.register(Registry.BLOCK, id(name), block);
     }
 
     public static void initialize() {

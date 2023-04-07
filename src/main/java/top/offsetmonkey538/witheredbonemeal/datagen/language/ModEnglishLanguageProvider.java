@@ -1,13 +1,13 @@
 package top.offsetmonkey538.witheredbonemeal.datagen.language;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import top.offsetmonkey538.witheredbonemeal.init.ModBlocks;
 import top.offsetmonkey538.witheredbonemeal.init.ModItems;
 
 public class ModEnglishLanguageProvider extends FabricLanguageProvider {
-    public ModEnglishLanguageProvider(FabricDataOutput dataOutput) {
-        super(dataOutput, "en_us");
+    public ModEnglishLanguageProvider(FabricDataGenerator dataGenerator) {
+        super(dataGenerator, "en_us");
     }
 
     @Override
