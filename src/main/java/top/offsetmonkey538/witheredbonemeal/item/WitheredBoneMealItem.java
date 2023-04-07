@@ -43,40 +43,49 @@ public class WitheredBoneMealItem extends Item {
         final Block block = state.getBlock();
 
 
-        if (block instanceof WitherRoseBlock)            return false;
+        if (block instanceof WitherRoseBlock)                return false;
+        if (block instanceof RootsBlock)                     return false;
+        if (block instanceof SproutsBlock)                   return false;
 
-        if (block instanceof TallFlowerBlock)            return replaceTallBlockWith(world, stack, pos, state, Blocks.WITHER_ROSE);
-        if (block instanceof FlowerBlock)                return replaceWith(world, stack, pos, Blocks.WITHER_ROSE);
-        if (block instanceof NyliumBlock)                return replaceWith(world, stack, pos, Blocks.NETHERRACK, 0.5);
+        if (block instanceof NetherrackBlock netherrack)     return handleVanillaBonemeal(world, stack, pos, netherrack, state, 0.5);
+        if (block instanceof NyliumBlock nylium)             return handleVanillaBonemeal(world, stack, pos, nylium, state, 0.5);
+        if (block instanceof FungusBlock fungus)             return handleVanillaBonemeal(world, stack, pos, fungus, state);
+        if (block instanceof WeepingVinesBlock
+                || block instanceof WeepingVinesPlantBlock
+                || block instanceof TwistingVinesBlock
+                || block instanceof TwistingVinesPlantBlock) return handleVanillaBonemeal(world, stack, pos, (Fertilizable) block, state);
+
+        if (block instanceof TallFlowerBlock)                return replaceTallBlockWith(world, stack, pos, state, Blocks.WITHER_ROSE);
+        if (block instanceof FlowerBlock)                    return replaceWith(world, stack, pos, Blocks.WITHER_ROSE);
         if (block instanceof GrassBlock
                 || block instanceof MyceliumBlock
                 || block instanceof RootedDirtBlock
-                || state.isOf(Blocks.PODZOL))            return replaceWith(world, stack, pos, Blocks.DIRT, 0.5);
-        if (state.isOf(Blocks.MUDDY_MANGROVE_ROOTS))     return replaceWith(world, stack, pos, Blocks.MUD);
+                || state.isOf(Blocks.PODZOL))                return replaceWith(world, stack, pos, Blocks.DIRT, 0.5);
+        if (state.isOf(Blocks.MUDDY_MANGROVE_ROOTS))         return replaceWith(world, stack, pos, Blocks.MUD);
 
-        if (block instanceof NetherWartBlock)            return handleNetherWart(world, stack, pos, state);
+        if (block instanceof NetherWartBlock)                return handleNetherWart(world, stack, pos, state);
 
-        if (block instanceof CropBlock cropBlock)        return handleAgedBlock(world, stack, pos, state, cropBlock.getAgeProperty());
-        if (block instanceof StemBlock)                  return handleAgedBlock(world, stack, pos, state, Properties.AGE_7);
+        if (block instanceof CropBlock cropBlock)            return handleAgedBlock(world, stack, pos, state, cropBlock.getAgeProperty());
+        if (block instanceof StemBlock)                      return handleAgedBlock(world, stack, pos, state, Properties.AGE_7);
 
-        if (block instanceof CoralFanBlock coralBlock)   return replaceWith(world, stack, pos, ((CoralFanBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
-        if (block instanceof CoralBlock coralBlock)      return replaceWith(world, stack, pos, ((CoralBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
-        if (block instanceof CoralBlockBlock coralBlock) return replaceWith(world, stack, pos, ((CoralBlockBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState());
+        if (block instanceof CoralFanBlock coralBlock)       return replaceWith(world, stack, pos, ((CoralFanBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
+        if (block instanceof CoralBlock coralBlock)          return replaceWith(world, stack, pos, ((CoralBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
+        if (block instanceof CoralBlockBlock coralBlock)     return replaceWith(world, stack, pos, ((CoralBlockBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState());
 
 
-        if (block instanceof TallPlantBlock)             return replaceTallBlockWith(world, stack, pos, state, Blocks.AIR);
-        if (block instanceof AbstractPlantPartBlock)     return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof MangroveRootsBlock)         return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof HangingRootsBlock)          return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof SugarCaneBlock)             return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof CactusBlock)                return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BigDripleafBlock)           return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BigDripleafStemBlock)       return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BambooBlock)                return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BambooSaplingBlock)         return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof GlowLichenBlock)            return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof VineBlock)                  return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof PlantBlock)                 return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof TallPlantBlock)                 return replaceTallBlockWith(world, stack, pos, state, Blocks.AIR);
+        if (block instanceof AbstractPlantPartBlock)         return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof MangroveRootsBlock)             return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof HangingRootsBlock)              return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof SugarCaneBlock)                 return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof CactusBlock)                    return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BigDripleafBlock)               return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BigDripleafStemBlock)           return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BambooBlock)                    return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BambooSaplingBlock)             return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof GlowLichenBlock)                return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof VineBlock)                      return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof PlantBlock)                     return replaceWith(world, stack, pos, Blocks.AIR);
 
 
         return false;
