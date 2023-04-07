@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.IntProperty;
@@ -42,43 +43,63 @@ public class WitheredBoneMealItem extends Item {
         final Block block = state.getBlock();
 
 
-        if (block instanceof WitherRoseBlock)            return false;
+        if (block instanceof WitherRoseBlock)                return false;
+        if (block instanceof RootsBlock)                     return false;
+        if (block instanceof SproutsBlock)                   return false;
 
-        if (block instanceof TallFlowerBlock)            return replaceTallBlockWith(world, stack, pos, state, Blocks.WITHER_ROSE);
-        if (block instanceof FlowerBlock)                return replaceWith(world, stack, pos, Blocks.WITHER_ROSE);
-        if (block instanceof NyliumBlock)                return replaceWith(world, stack, pos, Blocks.NETHERRACK, 0.5);
+        if (block instanceof NetherrackBlock netherrack)     return handleVanillaBonemeal(world, stack, pos, netherrack, state, 0.5);
+        if (block instanceof NyliumBlock nylium)             return handleVanillaBonemeal(world, stack, pos, nylium, state, 0.5);
+        if (block instanceof FungusBlock fungus)             return handleVanillaBonemeal(world, stack, pos, fungus, state);
+        if (block instanceof WeepingVinesBlock
+                || block instanceof WeepingVinesPlantBlock
+                || block instanceof TwistingVinesBlock
+                || block instanceof TwistingVinesPlantBlock) return handleVanillaBonemeal(world, stack, pos, (Fertilizable) block, state);
+
+        if (block instanceof TallFlowerBlock)                return replaceTallBlockWith(world, stack, pos, state, Blocks.WITHER_ROSE);
+        if (block instanceof FlowerBlock)                    return replaceWith(world, stack, pos, Blocks.WITHER_ROSE);
         if (block instanceof GrassBlock
                 || block instanceof MyceliumBlock
                 || block instanceof RootedDirtBlock
-                || state.isOf(Blocks.PODZOL))            return replaceWith(world, stack, pos, Blocks.DIRT, 0.5);
-        if (state.isOf(Blocks.MUDDY_MANGROVE_ROOTS))     return replaceWith(world, stack, pos, Blocks.MUD);
+                || state.isOf(Blocks.PODZOL))                return replaceWith(world, stack, pos, Blocks.DIRT, 0.5);
+        if (state.isOf(Blocks.MUDDY_MANGROVE_ROOTS))         return replaceWith(world, stack, pos, Blocks.MUD);
 
-        if (block instanceof NetherWartBlock)            return handleNetherWart(world, stack, pos, state);
+        if (block instanceof NetherWartBlock)                return handleNetherWart(world, stack, pos, state);
 
-        if (block instanceof CropBlock cropBlock)        return handleAgedBlock(world, stack, pos, state, cropBlock.getAgeProperty());
-        if (block instanceof StemBlock)                  return handleAgedBlock(world, stack, pos, state, Properties.AGE_7);
+        if (block instanceof CropBlock cropBlock)            return handleAgedBlock(world, stack, pos, state, cropBlock.getAgeProperty());
+        if (block instanceof StemBlock)                      return handleAgedBlock(world, stack, pos, state, Properties.AGE_7);
 
-        if (block instanceof CoralFanBlock coralBlock)   return replaceWith(world, stack, pos, ((CoralFanBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
-        if (block instanceof CoralBlock coralBlock)      return replaceWith(world, stack, pos, ((CoralBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
-        if (block instanceof CoralBlockBlock coralBlock) return replaceWith(world, stack, pos, ((CoralBlockBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState());
+        if (block instanceof CoralFanBlock coralBlock)       return replaceWith(world, stack, pos, ((CoralFanBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
+        if (block instanceof CoralBlock coralBlock)          return replaceWith(world, stack, pos, ((CoralBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));
+        if (block instanceof CoralBlockBlock coralBlock)     return replaceWith(world, stack, pos, ((CoralBlockBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState());
 
 
-        if (block instanceof TallPlantBlock)             return replaceTallBlockWith(world, stack, pos, state, Blocks.AIR);
-        if (block instanceof AbstractPlantPartBlock)     return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof MangroveRootsBlock)         return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof HangingRootsBlock)          return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof SugarCaneBlock)             return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof CactusBlock)                return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BigDripleafBlock)           return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BigDripleafStemBlock)       return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BambooBlock)                return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BambooSaplingBlock)         return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof GlowLichenBlock)            return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof VineBlock)                  return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof PlantBlock)                 return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof TallPlantBlock)                 return replaceTallBlockWith(world, stack, pos, state, Blocks.AIR);
+        if (block instanceof AbstractPlantPartBlock)         return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof MangroveRootsBlock)             return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof HangingRootsBlock)              return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof SugarCaneBlock)                 return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof CactusBlock)                    return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BigDripleafBlock)               return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BigDripleafStemBlock)           return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BambooBlock)                    return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof BambooSaplingBlock)             return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof GlowLichenBlock)                return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof VineBlock)                      return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block instanceof PlantBlock)                     return replaceWith(world, stack, pos, Blocks.AIR);
 
 
         return false;
+    }
+
+    private static boolean handleVanillaBonemeal(World world, ItemStack stack, BlockPos pos, Fertilizable block, BlockState state) {
+        return handleVanillaBonemeal(world, stack, pos, block, state, 0);
+    }
+    private static boolean handleVanillaBonemeal(World world, ItemStack stack, BlockPos pos, Fertilizable block, BlockState state,  double particleYOffset) {
+        if (!block.isFertilizable(world, pos, state, world.isClient)) return false;
+        if (world instanceof ServerWorld serverWorld) block.grow(serverWorld, random, pos, state);
+
+        onSuccess(world, stack, pos, particleYOffset);
+        return true;
     }
 
     private static boolean handleNetherWart(World world, ItemStack stack, BlockPos pos, BlockState state) {
@@ -111,17 +132,21 @@ public class WitheredBoneMealItem extends Item {
         return replaceWith(world, stack, pos, replaceWith, 0);
     }
     private static boolean replaceWith(World world, ItemStack stack, BlockPos pos, BlockState replaceWith, double particleYOffset) {
-        addSmokeParticles(world, Vec3d.of(pos).add(0, particleYOffset, 0));
+        onSuccess(world, stack, pos, particleYOffset);
         setBlock(world, pos, replaceWith);
-        playUseSound(world, pos);
 
-        stack.decrement(1);
         return true;
     }
 
     private static void setBlock(World world, BlockPos pos, BlockState newState) {
         if (world.isClient()) return;
         world.setBlockState(pos, newState);
+    }
+
+    private static void onSuccess(World world, ItemStack stack, BlockPos pos, double particleYOffset) {
+        addSmokeParticles(world, Vec3d.of(pos).add(0, particleYOffset, 0));
+        playUseSound(world, pos);
+        stack.decrement(1);
     }
 
     private static void playUseSound(World world, BlockPos pos) {
