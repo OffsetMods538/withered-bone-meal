@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.IntProperty;
@@ -81,6 +82,17 @@ public class WitheredBoneMealItem extends Item {
         return false;
     }
 
+    private static boolean handleVanillaBonemeal(World world, ItemStack stack, BlockPos pos, Fertilizable block, BlockState state) {
+        return handleVanillaBonemeal(world, stack, pos, block, state, 0);
+    }
+    private static boolean handleVanillaBonemeal(World world, ItemStack stack, BlockPos pos, Fertilizable block, BlockState state,  double particleYOffset) {
+        if (!block.isFertilizable(world, pos, state, world.isClient)) return false;
+        if (world instanceof ServerWorld serverWorld) block.grow(serverWorld, random, pos, state);
+
+        onSuccess(world, stack, pos, particleYOffset);
+        return true;
+    }
+
     private static boolean handleNetherWart(World world, ItemStack stack, BlockPos pos, BlockState state) {
         int newAge = state.get(Properties.AGE_3) + 1;
         if (newAge > Properties.AGE_3_MAX) return false;
@@ -111,17 +123,21 @@ public class WitheredBoneMealItem extends Item {
         return replaceWith(world, stack, pos, replaceWith, 0);
     }
     private static boolean replaceWith(World world, ItemStack stack, BlockPos pos, BlockState replaceWith, double particleYOffset) {
-        addSmokeParticles(world, Vec3d.of(pos).add(0, particleYOffset, 0));
+        onSuccess(world, stack, pos, particleYOffset);
         setBlock(world, pos, replaceWith);
-        playUseSound(world, pos);
 
-        stack.decrement(1);
         return true;
     }
 
     private static void setBlock(World world, BlockPos pos, BlockState newState) {
         if (world.isClient()) return;
         world.setBlockState(pos, newState);
+    }
+
+    private static void onSuccess(World world, ItemStack stack, BlockPos pos, double particleYOffset) {
+        addSmokeParticles(world, Vec3d.of(pos).add(0, particleYOffset, 0));
+        playUseSound(world, pos);
+        stack.decrement(1);
     }
 
     private static void playUseSound(World world, BlockPos pos) {
