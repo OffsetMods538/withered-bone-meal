@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import top.offsetmonkey538.witheredbonemeal.mixin.CoralBlockAccessor;
 import top.offsetmonkey538.witheredbonemeal.mixin.CoralBlockBlockAccessor;
 import top.offsetmonkey538.witheredbonemeal.mixin.CoralFanBlockAccessor;
+import top.offsetmonkey538.witheredbonemeal.mixin.accessor.CropBlockAccessor;
 
 public class WitheredBoneMealItem extends Item {
 
@@ -65,7 +66,7 @@ public class WitheredBoneMealItem extends Item {
 
         if (block instanceof NetherWartBlock)                return handleNetherWart(world, stack, pos, state);
 
-        if (block instanceof CropBlock cropBlock)            return handleAgedBlock(world, stack, pos, state, cropBlock.getAgeProperty());
+        if (block instanceof CropBlock cropBlock)            return handleAgedBlock(world, stack, pos, state, ((CropBlockAccessor) cropBlock).invokeGetAgeProperty());
         if (block instanceof StemBlock)                      return handleAgedBlock(world, stack, pos, state, Properties.AGE_7);
 
         if (block instanceof CoralFanBlock coralBlock)       return replaceWith(world, stack, pos, ((CoralFanBlockAccessor) coralBlock).getDeadCoralBlock().getDefaultState().with(Properties.WATERLOGGED, state.get(Properties.WATERLOGGED)));

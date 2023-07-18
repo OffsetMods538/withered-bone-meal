@@ -14,7 +14,7 @@ public final class ModBlocks {
     }
 
 
-    public static final Block WITHERED_BONE_BLOCK = register("withered_bone_block", new PillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(2.0f).sounds(BlockSoundGroup.BONE)));
+    public static final Block WITHERED_BONE_BLOCK = register("withered_bone_block", new PillarBlock(FabricBlockSettings.create().mapColor(MapColor.DEEPSLATE_GRAY).solid().requiresTool().strength(2.0f).sounds(BlockSoundGroup.BONE)));
 
 
     private static <T extends Block> T register(String name, T block) {
