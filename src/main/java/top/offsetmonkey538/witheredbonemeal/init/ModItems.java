@@ -1,6 +1,5 @@
 package top.offsetmonkey538.witheredbonemeal.init;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
@@ -22,16 +21,15 @@ public final class ModItems {
     }
 
 
-    public static final BlockItem            WITHERED_BONE_BLOCK = register("withered_bone_block", new BlockItem(ModBlocks.WITHERED_BONE_BLOCK, new FabricItemSettings()));
-    public static final Item                 WITHERED_BONE       = register("withered_bone",       new Item(new FabricItemSettings()));
-    public static final WitheredBoneMealItem WITHERED_BONE_MEAL  = register("withered_bone_meal",  new WitheredBoneMealItem(new FabricItemSettings()));
+    public static final BlockItem            WITHERED_BONE_BLOCK = register("withered_bone_block", new BlockItem(ModBlocks.WITHERED_BONE_BLOCK, new Item.Settings()));
+    public static final Item                 WITHERED_BONE       = register("withered_bone",       new Item(new Item.Settings()));
+    public static final WitheredBoneMealItem WITHERED_BONE_MEAL  = register("withered_bone_meal",  new WitheredBoneMealItem(new Item.Settings()));
 
 
     private static <T extends Item> T register(String name, T item) {
         return Registry.register(Registries.ITEM, id(name), item);
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     private static void addItemsToItemGroups() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> entries.addBefore(Items.BASALT, WITHERED_BONE_BLOCK));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> entries.addBefore(Items.BASALT, WITHERED_BONE_BLOCK));
@@ -48,8 +46,8 @@ public final class ModItems {
         DispenserBlock.registerBehavior(WITHERED_BONE_MEAL, new FallibleItemDispenserBehavior() {
             @Override
             protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-                ServerWorld world = pointer.getWorld();
-                BlockPos pos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
+                ServerWorld world = pointer.world();
+                BlockPos pos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
                 BlockState state = world.getBlockState(pos);
 
                 if (!WitheredBoneMealItem.useOnGround(stack, world, pos, state)) this.setSuccess(false);

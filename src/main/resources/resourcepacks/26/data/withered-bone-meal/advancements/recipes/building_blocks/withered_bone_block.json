@@ -3,16 +3,16 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:withered_bone_meal_from_withered_bone"
+        "recipe": "minecraft:withered_bone_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_withered_bone": {
+    "has_withered_bone_meal": {
       "conditions": {
         "items": [
           {
             "items": [
-              "withered-bone-meal:withered_bone"
+              "withered-bone-meal:withered_bone_meal"
             ]
           }
         ]
@@ -22,13 +22,13 @@
   },
   "requirements": [
     [
-      "has_withered_bone",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_withered_bone_meal"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:withered_bone_meal_from_withered_bone"
+      "minecraft:withered_bone_block"
     ]
   }
 }

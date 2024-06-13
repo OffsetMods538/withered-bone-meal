@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "withered-bone-meal:withered_bone_meal"
-            ]
+            "items": "withered-bone-meal:withered_bone_meal"
           }
         ]
       },
@@ -22,8 +20,8 @@
   },
   "requirements": [
     [
-      "has_withered_bone_meal",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_withered_bone_meal"
     ]
   ],
   "rewards": {

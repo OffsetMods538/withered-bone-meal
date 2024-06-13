@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import top.offsetmonkey538.monkeylib538.utils.FertilizableBlockUtils;
 import top.offsetmonkey538.witheredbonemeal.mixin.CoralBlockAccessor;
 import top.offsetmonkey538.witheredbonemeal.mixin.CoralBlockBlockAccessor;
 import top.offsetmonkey538.witheredbonemeal.mixin.CoralFanBlockAccessor;
@@ -83,7 +84,7 @@ public class WitheredBoneMealItem extends Item {
         if (block instanceof BigDripleafBlock)               return replaceWith(world, stack, pos, Blocks.AIR);
         if (block instanceof BigDripleafStemBlock)           return replaceWith(world, stack, pos, Blocks.AIR);
         if (block instanceof BambooBlock)                    return replaceWith(world, stack, pos, Blocks.AIR);
-        if (block instanceof BambooSaplingBlock)             return replaceWith(world, stack, pos, Blocks.AIR);
+        if (block == Blocks.BAMBOO_SAPLING)                  return replaceWith(world, stack, pos, Blocks.AIR);
         if (block instanceof GlowLichenBlock)                return replaceWith(world, stack, pos, Blocks.AIR);
         if (block instanceof VineBlock)                      return replaceWith(world, stack, pos, Blocks.AIR);
         if (block instanceof PlantBlock)                     return replaceWith(world, stack, pos, Blocks.AIR);
@@ -96,7 +97,7 @@ public class WitheredBoneMealItem extends Item {
         return handleVanillaBonemeal(world, stack, pos, block, state, 0);
     }
     private static boolean handleVanillaBonemeal(World world, ItemStack stack, BlockPos pos, Fertilizable block, BlockState state,  double particleYOffset) {
-        if (!block.isFertilizable(world, pos, state, world.isClient)) return false;
+        if (!FertilizableBlockUtils.INSTANCE.isFertilizable(block, world, pos, state)) return false;
         if (world instanceof ServerWorld serverWorld) block.grow(serverWorld, random, pos, state);
 
         onSuccess(world, stack, pos, particleYOffset);

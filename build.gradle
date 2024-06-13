@@ -23,29 +23,6 @@ outlet {
 	]
 }
 
-
-loom {
-	runs {
-		datagenClient {
-			inherit client
-			name "Data Generation"
-			vmArg "-Dfabric-api.datagen"
-			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-			vmArg "-Dfabric-api.datagen.modid=withered-bone-meal"
-		}
-	}
-}
-
-sourceSets {
-	main {
-		resources {
-			srcDirs += [
-			        "src/main/generated"
-			]
-		}
-	}
-}
-
 configurations {
 	includeModImplementation
 
@@ -60,7 +37,15 @@ configurations {
 }
 
 repositories {
-
+	mavenCentral()
+	mavenLocal()
+	maven {
+		name = "OffsetMods538"
+		url = "https://maven.offsetmonkey538.top/releases"
+		content {
+			includeGroup "top.offsetmonkey538.monkeylib538"
+		}
+	}
 }
 
 dependencies {
@@ -70,18 +55,22 @@ dependencies {
 
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
+
+	modImplementation "top.offsetmonkey538.monkeylib538:monkeylib538:${project.monkeylib538_version}"
 }
 
 processResources {
 	inputs.properties(Map.of(
-		"modVersion",                 project.version,
-		"supportedMinecraftVersions", project.supported_minecraft_versions
+			"modVersion",                 project.version,
+			"supportedMinecraftVersions", project.supported_minecraft_versions,
+			"monkeylib538Version",        project.monkeylib538_version
 	))
 
 	filesMatching("fabric.mod.json") {
 		expand(Map.of(
-			"modVersion",                 project.version,
-			"supportedMinecraftVersions", project.supported_minecraft_versions
+				"modVersion",                 project.version,
+				"supportedMinecraftVersions", project.supported_minecraft_versions,
+				"monkeylib538Version",        project.monkeylib538_version
 		))
 	}
 }
@@ -118,7 +107,7 @@ modrinth {
 	}
 
 	dependencies {
-		//required.project "monkeylib538"
+		required.project "monkeylib538"
 		required.project "fabric-api"
 	}
 }

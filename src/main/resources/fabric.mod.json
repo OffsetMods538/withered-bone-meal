@@ -16,15 +16,14 @@
 	"entrypoints": {
 		"main": [
 			"top.offsetmonkey538.witheredbonemeal.WitheredBoneMeal"
-		],
-		"fabric-datagen": [
-			"top.offsetmonkey538.witheredbonemeal.datagen.WitheredBoneMealDatagen"
 		]
 	},
 	"mixins": [
 		"withered-bone-meal.mixins.json"
 	],
 	"depends": {
-		"minecraft": "${supportedMinecraftVersions}"
+		"minecraft": "${supportedMinecraftVersions}",
+		"fabric-api": "*",
+		"monkeylib538": "${monkeylib538Version}"
 	}
 }

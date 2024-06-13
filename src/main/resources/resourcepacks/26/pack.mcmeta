@@ -1,0 +1,10 @@
+{
+	"pack": {
+		"description": "1.20 Withered Bone Meal",
+		"pack_format": 26,
+		"supported_formats": {
+			"min_inclusive": 18,
+			"max_inclusive": 26
+		}
+	}
+}
