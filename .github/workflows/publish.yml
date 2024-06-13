@@ -24,11 +24,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Generate resources
-        run: ./gradlew runDatagenClient
-        env:
-          DISABLE_PROPERTIES_UPDATE: true
-
       - name: Build with Gradle
         run: ./gradlew build
         env:
