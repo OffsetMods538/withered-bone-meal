@@ -24,6 +24,6 @@
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}",
 		"fabric-api": "*",
-		"monkeylib538": "${monkeylib538Version}"
+		"monkeylib538": ">=${monkeylib538Version}"
 	}
 }
